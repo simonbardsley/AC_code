@@ -1,84 +1,84 @@
 ################################################################
 # Logit directory creation script in python
+# Python 2.7.12
 # By Simon Bardsley
-# 03 April, 2017
+# 15 April, 2017
 # Description: This script prompts the usesr for information on Change numnber, a short description, a customer
-# name, a company name (if it is a data provision request)
+# name and a company name (if it is a data provision request)
 # Add... check if Change number exists in other directories
-# Add... create sub-folders by changing directory to the new director then use os.mkdir to create and name
-# subdirectories
 # Add... limited text input() to a number of chars of one type
 ################################################################
-import os, re, time
-from os import listdir
-
-print("Python", python_version())
+import os, re, time, errno, sys
+from os import listdir, path, chmod
 
 #Logit list
-logitClass = {0:'DP', 1:'SA', 2:'DS', 3:'PS', 4:'IN', 5:'MR', 6:'LOGIMA'}
-for item in logitClass:
-    print(item)
+logitClass = {0: 'DP' , 1: 'SA' , 2: 'DS' , 3: 'PS' , 4: 'IN' , 5: 'MR' , 6: 'LOGIMA'}
 
 #Variables
-logitType = int(input("Choose a logit type number: 0:'DP', 1:'SA', 2:'DS', 3:'PS', 4:'IN', 5:'MR', 6:'LOGIMA' "))
+logitType = input("Choose a logit type number: 0:'DP', 1:'SA', 2:'DS', 3:'PS', 4:'IN', 5:'MR', 6:'LOGIMA' ")
+print(logitType)
 changeNum = input("Provide the logit change number (e.g. C12345): ")
 shortDesc = input("Write a short description (<15 char): ")[0:15]
 customerName = input("Add the customers name? ")
-os.chdir("/home/simon/PyCharm")
+os.chdir("C:\\Users\\simonbardsley\\Downloads")
 print(os.getcwd())
+
 
 if logitType == 2:
     companyName = input("What is the company name? ")
-    logitName = os.mkdir(changeNum + " - " + shortDesc + " - " + customerName + " - " +
-                         companyName + " - " + logitClass[logitType], mode=777)
-    # logitName = changeNum + " - " + shortDesc + " - " + customerName + " - " + companyName + " - " + logitClass[logitType]
-    print("A logit folder was created as: " + str(logitName))
+    logitName = changeNum + " - " + shortDesc + " - " + customerName + " - " + companyName + " - " + logitClass[logitType]
+    path = os.path.join("C:\\Users\\simonbardsley\\Downloads\\", logitName)
+    if not os.path.exists(path):
+        os.mkdir(path)
+        # logitName = changeNum + " - " + shortDesc + " - " + customerName + " - " + companyName + " - " + logitClass[logitType]
+        print("A logit folder was created as: " + logitName)
+    else:
+        print("Directory already exists!")
+        sys.exit
 else:
-    logitName = os.mkdir(changeNum + " - " + shortDesc + " - " + customerName + " - " +
-                         logitClass[logitType], mode=777)
-    # logitName = changeNum + " - " + shortDesc + " - " + customerName + " - " + logitClass[logitType]
-    print("A logit folder was created as: " + str(logitName))
+    logitName = str(changeNum + " - " + shortDesc + " - " + customerName + " - " + logitClass[logitType])
+    path = os.path.join("C:\\Users\\simonbardsley\\Downloads\\", logitName)
+    if not os.path.exists(path):
+        os.mkdir(path)
+        print("A logit folder was created as: " + logitName)
+    else:
+        print(Directory already exists!")
+        sys.exit
 
 
-# print("Changing to D:")
-# time.sleep(5)
-# os.chdir("/home/simon/PyCharm")
-# print(os.getcwd())
-# print("Creating new logit folder")
-# time.sleep(5)
-# os.mkdir(logitName, 777)
-time.sleep(5)
-os.chmod("/home/simon/PyCharm/" + str(logitName), mode=777)
-os.chdir("/home/simon/PyCharm/" + str(logitName)
+time.sleep(2)
+#os.chmod(path, mode=777)
+os.chdir(path)
 print("###################################")
 print("Creating subfolders")
 time.sleep(2)
 print("Documents...")
 time.sleep(2)
-os.mkdir("1 Documents", mode=777)
-print("Inputs..."),
-time.sleep(2),
-os.mkdir("2 Inputs", mode=777)
+os.mkdir("1 Documents")
+print("Inputs...")
+time.sleep(2)
+os.mkdir("2 Inputs")
 print("Data...")
 time.sleep(2)
-os.mkdir("3 Data", mode=777)
+os.mkdir("3 Data")
 print("Workspaces...")
 time.sleep(2)
-os.mkdir("4 Workspaces", mode=777)
+os.mkdir("4 Workspaces")
 print("Outputs...")
-os.mkdir("5 Outputs...", mode=777)
+os.mkdir("5 Outputs." )
 time.sleep(2)
 print("###################################")
 print("Listing Logit directory contents")
-time.sleep(5)
+time.sleep(2)
 
-list = os.listdir(str(logitName))
+list = os.listdir(path)
 
-for item in list:
-    print(item)
+for items in list:
+    print(items)
 
-toClose = input("Do you want to close this program? Y/N ")
-if toClose == "Y":
+toClose = input("Do you want to close this program? y\n ")
+
+if toClose == "y":
     exit
 else:
-    time.sleep(10)
+   time.sleep(10)
